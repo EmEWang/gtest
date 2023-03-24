@@ -1,5 +1,5 @@
 
-#include "src.h"
+#include "samplemy2.h"
 
 
 int Foo(int a,int b) {

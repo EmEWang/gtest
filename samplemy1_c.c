@@ -1,4 +1,4 @@
-#include "cfunc.h"
+#include "samplemy1_c.h"
 
 int cadd(int a, int b)
 {
