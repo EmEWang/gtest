@@ -15,3 +15,9 @@ int add3_(int a, int b)
 {
     return a+b;
 }
+
+void throwExp(int a)
+{
+    if(a < 0)
+        throw 1;
+}

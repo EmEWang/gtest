@@ -5,12 +5,11 @@
 #define ___SRC__H
 #include <stdio.h>
 
-
-
-int Foo(int a,int b);
-int Action(int a, int b);
-int Device(int a, int b);
+bool Odd(int a);
 int Add(int a, int b);
+// 返回str1 str2
+char* strJoin(const char* str1, const char* str2);
+float Addfloat(float a, float b);
 
 class Calc {
 public:

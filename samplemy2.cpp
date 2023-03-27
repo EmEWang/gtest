@@ -1,70 +1,34 @@
 
 #include "samplemy2.h"
+#include <string.h>
 
+bool Odd(int a) {
+    if (a % 2 == 1)
+    {
+        return true;
+    }
 
-int Foo(int a,int b) {
-    if(0 == a||0 == b) {
-        throw "don't do that";
-    }
-
-    int c = a % b;
-    if (0 == c) {
-        return b;
-    }
-    return Foo(b, c);
-}
-
-int Action(int a, int b)
-{
-    if (a > b)
-    {
-        return 1;
-    }
-    else if (a == b)
-    {
-        return 0;
-    }
-    else
-    {
-        return -1;
-    }
-}
-
-int Device(int a, int b)
-{
-    int i = a/b;
-    if (i > 1)
-    {
-        return 1;
-    }
-    else if (i == 1)
-    {
-        return 0;
-    }
-    else
-    {
-        return -1;
-    }
+    return false;
 }
 
 int Add(int a, int b)
 {
     int i = a+b;
-    if (i > 1)
-    {
-        return 1;
-    }
-    else if (i == 1)
-    {
-        return 0;
-    }
-    else
-    {
-        return -1;
-    }
+    return i;
 }
 
 
+char temp[100];
+char* strJoin(const char* str1, const char* str2)
+{
+    sprintf(temp, "%s %s", str1, str2);
+    return temp;
+}
+
+float Addfloat(float a, float b)
+{
+    return a + b;
+}
 
 int Calc::add(int a, int b) {
     return a + b;

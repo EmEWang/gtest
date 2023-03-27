@@ -5,4 +5,7 @@
 bool isEven3_(int a, int b, int c);
 int add3_(int a, int b);
 
+// < 0 抛异常
+void throwExp(int a);
+
 // #endif

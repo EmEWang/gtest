@@ -2,28 +2,40 @@
 #include "samplemy2.h"
 
 
-TEST(FooTest, HandleNoneZeroInput) {
-   EXPECT_EQ(2, Foo(4,10));
-   EXPECT_EQ(6, Foo(30,18));
+// 布尔值检查
+// Fatal assertion            Nonfatal assertion         Verifies
+// ASSERT_TRUE(condition);    EXPECT_TRUE(condition);    condition is true
+// ASSERT_FALSE(condition);   EXPECT_FALSE(condition);   condition is false
+
+// 还可以通过操作符<<将一些自定义的信息输出，通常，这对于调试或是对一些检查点的补充说明来说
+TEST(Odd, Oddtest1){
+   EXPECT_TRUE(Odd(3)) << "如果验证失败 则追加自定义的内容";
 }
-TEST(Action, input1) {
-   EXPECT_EQ(0, Action(1,1));
-   EXPECT_EQ(-1, Action(1,2));
-   EXPECT_EQ(1, Action(3,2));
+
+
+// 数值型数据检查
+// Fatal assertion                 Nonfatal assertion              Verifies
+// ASSERT_EQ(expected, actual);    EXPECT_EQ(expected, actual);    expected == actual
+// ASSERT_NE(val1, val2);          EXPECT_NE(val1, val2);          val1 != val2
+// ASSERT_LT(val1, val2);          EXPECT_LT(val1, val2);          val1 < val2
+// ASSERT_LE(val1, val2);          EXPECT_LE(val1, val2);          val1 <= val2
+// ASSERT_GT(val1, val2);          EXPECT_GT(val1, val2);          val1 > val2
+// ASSERT_GE(val1, val2);          EXPECT_GE(val1, val2);          val1 >= val2
+TEST(Add, Addtest1) {
+   EXPECT_EQ(2, Add(1,1));
 }
-TEST(Device, input1) {
-   EXPECT_EQ(0, Action(1,1));
-   EXPECT_EQ(-1, Action(1,2));
-   EXPECT_EQ(1, Action(3,2));
-   EXPECT_EQ(1, Action(3,0));
+
+// 字符串检查
+// Fatal assertion                             Nonfatal assertion                         Verifies
+// ASSERT_STREQ(expected_str, actual_str);     EXPECT_STREQ(expected_str, actual_str);    the two C strings have the same content
+// ASSERT_STRNE(str1, str2);                   EXPECT_STRNE(str1, str2);                  the two C strings have different content
+// ASSERT_STRCASEEQ(expected_str, actual_str); EXPECT_STRCASEEQ(expected_str, actual_str);the two C strings have the same content, ignoring case
+// ASSERT_STRCASENE(str1, str2);               EXPECT_STRCASENE(str1, str2);              the two C strings have different content, ignoring case
+TEST(strJoin, strJointest1) {
+   EXPECT_STREQ("Hello kitty", strJoin("Hello", "kitty"));
+   EXPECT_STRCASEEQ("hello kitty", strJoin("Hello", "kitty"));
 }
-TEST(Add, input1) {
-   EXPECT_EQ(1, Add(1,1));
-   EXPECT_EQ(0, Add(1,0));
-   EXPECT_EQ(0, Add(3,-2));
-   EXPECT_EQ(1, Add(3,0));
-   EXPECT_EQ(0, Add(3,-2));
-}
+
 
 
 // 浮点比较
@@ -36,7 +48,7 @@ TEST(Add, input1) {
 // 以下断言允许您选择可接受的误差界限：
 // Fatal assertion                     Nonfatal assertion                  Verifies
 // ASSERT_NEAR(val1, val2, abs_error); EXPECT_NEAR(val1, val2, abs_error); the difference between val1 and val2 doesn't exceed the given absolute error
-TEST(float, test1) {
+TEST(float, floattest1) {
    EXPECT_FLOAT_EQ(1.0000001, 1.0000002);
    // 下面的不相等
    // EXPECT_FLOAT_EQ(1.000001, 1.000002);
@@ -44,6 +56,12 @@ TEST(float, test1) {
    EXPECT_NEAR(1.1, 1.2, 0.2);
    // 下面的不相等
    // EXPECT_NEAR(1.1, 1.2, 0.02);
+}
+
+TEST(float, floattest2) {
+   EXPECT_FLOAT_EQ(2.0000001, Addfloat(1,1));
+   EXPECT_NEAR(2.2, Addfloat(1.1,1.2), 0.2);
+
 }
 
 // Windows HRESULT断言

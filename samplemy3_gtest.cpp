@@ -44,6 +44,10 @@ TEST(testException, Exception1)
     //期望抛出异常 不实际抛出
     // EXPECT_ANY_THROW({int n = 1;});
 }
+TEST(testException, Exception2)
+{
+    EXPECT_NO_THROW(throwExp(1));
+}
 
 
 
@@ -104,6 +108,10 @@ TEST(AssertionResult, test1){
 {
      if (add3_(a,b)>=10)
         return ::testing::AssertionSuccess() ;
+    // testing::Message msg;
+    // msg << "添加 " <<a_expr <<"("<<a<< ")+"<< b_expr<<"("<<b<< ")小于10";
+    // return testing::AssertionFailure(msg);
+    // 以上三行 效果等于下一行
     return ::testing::AssertionFailure() << "添加 " <<a_expr <<"("<<a<< ")+"<< b_expr<<"("<<b<< ")小于10";
 }
 TEST(testPREDFormat, test1)
@@ -112,6 +120,7 @@ TEST(testPREDFormat, test1)
     int b=1;
     // 自定义错误输出
     // EXPECT_PRED_FORMAT2(isGreaterThan10_format,a,b);
+    // EXPECT_PRED_FORMAT2(isGreaterThan10_format,2,3);
 
     //EXPECT_PRED2(add3_, a, b);
 }
@@ -142,6 +151,7 @@ TEST(DeathTest, case_EXPECT_DEATH)
    " is null");
 }
 // NormalExit 则是另外一个例子，当程序通过exit退出的错误码，也可以通过gtest 进行验证。
+// 如果程序正常退出并且退出码与exit_code相同则返回 true
 TEST(DeathTest, ExitedWithCode)
 {
   EXPECT_EXIT( exit(123) ,::testing::ExitedWithCode(123), "");
@@ -153,6 +163,33 @@ TEST(DeathTest, KilledBySignal)
   EXPECT_EXIT( raise(11) ,::testing::KilledBySignal(11), "");
 }
 
+// 死亡测试运行方式
+// 1. fast方式（默认的方式）
+// testing::FLAGS_gtest_death_test_style = "fast";
+// 2. threadsafe方式
+// testing::FLAGS_gtest_death_test_style = "threadsafe";
+// 你可以在 main() 里为所有的死亡测试设置测试形式，也可以为某次测试单独设置。Google Test会在每次测试之前保存这个标记并在测试完成后恢复，所以你不需要去管这部分工作 。如：
+//
+// TEST(MyDeathTest, TestOne) {
+//   testing::FLAGS_gtest_death_test_style = "threadsafe";
+//   // This test is run in the "threadsafe" style:
+//   ASSERT_DEATH(ThisShouldDie(), "");
+// }
+
+// TEST(MyDeathTest, TestTwo) {
+//   // This test is run in the "fast" style:
+//   ASSERT_DEATH(ThisShouldDie(), "");
+// }
+
+// int main(int argc, char** argv) {
+//   testing::InitGoogleTest(&argc, argv);
+//   testing::FLAGS_gtest_death_test_style = "fast";
+//   return RUN_ALL_TESTS();
+// }
+// 注意事项
+// 1. 不要在死亡测试里释放内存。
+// 2. 在父进程里再次释放内存。
+// 3. 不要在程序中使用内存堆检查。
 
 
 // 语法 SCOPED_TRACE

@@ -2,7 +2,7 @@
 
 allcfile:=$(wildcard *.c)
 allcppfile:=$(wildcard *.cpp)
-notusedfile:=testall.cpp
+notusedfile:=testall.cpp testalldemo.cpp
 usedcppfile:=$(filter-out $(notusedfile),$(allcppfile))
 objc=$(patsubst %.c,%.o,$(allcfile))
 objcpp=$(patsubst %.cpp,%.o,$(usedcppfile))

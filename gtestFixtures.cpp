@@ -20,9 +20,24 @@ class vectorTest : public ::testing::Test {
      v1_.push_back(1);
      v2_.push_back(2);
      v2_.push_back(3);
+     std::cout << "~~~vectorTest SetUp~~~" << std::endl;
   }
 
-  // void TearDown() override {}
+  static void SetUpTestCase()
+  {
+    std::cout << "~~~vectorTest SetUpTestCase~~~" << std::endl;
+  }
+
+  static void TearDownTestCase()
+  {
+    std::cout << "~~~vectorTest TearDownTestCase~~~" << std::endl;
+  }
+
+
+  void TearDown() override
+  {
+    std::cout << "~~~vectorTest TearDown~~~" << std::endl;
+  }
 
   vector<int> v0_;
   vector<int> v1_;
