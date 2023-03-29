@@ -57,14 +57,42 @@ struct params_add
     int a;
     int b;
 };
+
+vector<struct params_add> vct_params_add = {{13,7},{1,19},{2,18}};
+void func11()
+{
+    vct_params_add.push_back({1,19});
+    vct_params_add.push_back({2,18});
+    vct_params_add.push_back({3,17});
+}
+
 class IsAddTest : public::testing::TestWithParam<params_add>
 {
-    // typedef vector<struct params_add> vct_param_add;
-    // vct_param_add vpa;
-    // vpa.size();
+public:
+    // IsAddTest()
+    // {
+    //     vct_params_add.push_back({1,19});
+    //     vct_params_add.push_back({2,18});
+    //     vct_params_add.push_back({3,17});
+    // }
+
+    static void SetUpTestCase()
+    {
+        vct_params_add.push_back({1,19});
+        vct_params_add.push_back({2,18});
+        vct_params_add.push_back({3,17});
+    }
+
 };
+
 TEST_P(IsAddTest, test3)
 {
+    // std::cout << "$$$$$$$$$$$$$$$$$$$$vct_params_add:" << vct_params_add.size() << std::endl;
+    // for (int i = 0; i < vct_params_add.size(); i++)
+    // {
+    //     std::cout << vct_params_add[i].a << " " << vct_params_add[i].b << std::endl;
+    // }
+
     struct params_add n =  GetParam();
     EXPECT_EQ(20, Add(n.a, n.b));
 }
@@ -73,6 +101,55 @@ struct params_add nn   = {13,17};
 struct params_add nnn[]= {{13,7},{1,19},{2,18}};
 
 
+// 其参数只能初始化 不能运行时改变
 // vct_param_add.push_back(nnn);
 // INSTANTIATE_TEST_CASE_P(IsAddTestParams, IsAddTest, testing::Values(nn));
-INSTANTIATE_TEST_CASE_P(IsAddTestParams, IsAddTest, testing::ValuesIn(nnn));
+// INSTANTIATE_TEST_CASE_P(IsAddTestParams, IsAddTest, testing::Values(params_add{1,19},params_add{2,18}));
+// INSTANTIATE_TEST_CASE_P(IsAddTestParams, IsAddTest, testing::ValuesIn(nnn));
+INSTANTIATE_TEST_CASE_P(IsAddTestParams, IsAddTest, testing::ValuesIn(vct_params_add));
+
+
+
+
+
+bool makeCall(bool a, bool b)
+{
+    return a||b;
+}
+//Step1:申明一个呼叫参数类，该类主要用于TEST_P宏中实现的测试逻辑使用
+class CallArgs
+{
+public:
+  CallArgs(bool hasAudio,bool hasVideo):
+    _hasAudio(hasAudio),_hasVideo(hasVideo){}
+
+  bool audio(){ return _hasAudio;}
+  bool video(){ return _hasVideo;}
+
+private:
+  bool _hasAudio;
+  bool _hasVideo;
+};
+
+//Step2:申明一个呼叫类，该类同时也是TEST_P宏的第一个参数test_case_name
+//      该类继承了TestWithParam<CallArgs>模版类，从而使得CallArgs类与Call类进行了关联。
+class Call: public ::testing::TestWithParam<CallArgs>
+{
+};
+
+//Step3: 使用INSTANTIATE_TEST_CASE_P宏，对Call类进行类相关多个的参数设置
+//       这里只添加了两个参数CallArgs(true,true)和CallArgs(true,false)，事实上，可以添加多大50个参数。
+//       这里使用参数生成器::testing::Values，GTest定义了了很多参数生成器。
+INSTANTIATE_TEST_CASE_P(VOIP, Call, ::testing::Values(
+    CallArgs(true,true),
+    CallArgs(true,false)
+    ) );
+
+//Step4: 编写了使用TEST_P宏实现的测试用例
+//       使用了TestWithParam<CallArgs>类的GetParam()接口获取参数CallArgs
+//       实际上这是两个测试用例，即该代码段会执行两个，参数分别为CallArgs(true,true)和CallArgs(true,false)
+TEST_P( Call, makeCall)
+{
+  CallArgs args = GetParam();
+  ASSERT_TRUE( makeCall(args.audio(),args.video()) );
+}

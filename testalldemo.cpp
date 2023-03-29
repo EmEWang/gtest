@@ -116,7 +116,7 @@ void TESTCASE_NAME(testcase_name)::Run()
 
 
 
-    int Foo(int a, int b)
+int Foo(int a, int b)
 {
     return a + b;
 }

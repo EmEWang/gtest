@@ -2,7 +2,7 @@
 
 allcfile:=$(wildcard *.c)
 allcppfile:=$(wildcard *.cpp)
-notusedfile:=testall.cpp testalldemo.cpp
+notusedfile:=testall.cpp testalldemo.cpp $(wildcard *gmock*)
 usedcppfile:=$(filter-out $(notusedfile),$(allcppfile))
 objc=$(patsubst %.c,%.o,$(allcfile))
 objcpp=$(patsubst %.cpp,%.o,$(usedcppfile))
@@ -19,7 +19,10 @@ all:$(target)
 	./$(target)
 
 $(target):$(objcpp) $(objc)
-	g++ -o $@ *.o  -lgtest -pthread
+#	g++ -o $@ *.o  -lgtest -pthread
+	g++ -o $@ $(objc) $(objcpp)  -lgtest -pthread
+
+
 
 ####这部分生成.d文件的操作 本程序暂时没用 大工程可能有用
 # 说明
@@ -62,6 +65,16 @@ include $(alldfile)
 # $(objcpp):%.o:%.cpp
 # 	g++ -o $@ -c $<
 
+
+gmock1_tar:=gmock1_
+.PHONEY:
+gmock1:$(gmock1_tar)
+	./$(gmock1_tar)
+$(gmock1_tar):gmock1.cpp
+	g++ gmock1.cpp -o $(gmock1_tar) -lgtest -lgmock -pthread
+
+gmock1clean:
+	rm $(gmock1_tar)
 
 .PHONY: main2
 main2:
