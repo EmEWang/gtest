@@ -49,6 +49,12 @@ objcpp:=$(patsubst %.cpp,%.o,$(objcpp))
 objcpp:=$(addprefix $(dirto),$(objcpp))
 target=$(dirto)main
 
+# 命令中输入的参数会替换掉makefile中的变量 override指示符会保留 makefile中的变量
+# 如下使用make DDD=abc EEE=cba 则 DDD还是123 EEE变为cba
+# override DDD+=123 则DDD为 abc 123
+override DDD=123
+EEE=321
+
 # VPATH
 # VPATH变量的值用于指示make如何查找文件 不同文件夹可作为 VPATH 的值同时出现 文件夹的名字之间需要使用分隔符进行区分
 #   例如:VPATH := inc src
@@ -94,7 +100,7 @@ vpath %.cpp ./ $(dirsrc)
 
 all:$(target)
 	mkdir -p $(dirto)
-#	./$(target)
+	./$(target)
 
 $(target):$(objcpp) $(objc)
 #	g++ -o $@ *.o  -lgtest -pthread
@@ -190,6 +196,7 @@ test:
 	$(warning $(CC))
 	$(info $(CC))
 	echo $(CC)
+	$(info $(DDD))
 #	echo $(CFLAGS)
 #	echo $(CPPFLAGS)
 #	echo $(CXXFLAGS)

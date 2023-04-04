@@ -2,14 +2,14 @@
 #include "samplemy2.h"
 #include <string.h>
 
-bool Odd(int a) {
-    if (a % 2 == 1)
-    {
-        return true;
-    }
+// bool Odd(int a) {
+//     if (a % 2 == 1)
+//     {
+//         return true;
+//     }
 
-    return false;
-}
+//     return false;
+// }
 
 int Add(int a, int b)
 {
